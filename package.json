@@ -4,12 +4,14 @@
   "description": "��#\u0000 \u0000O\u0000r\u0000d\u0000e\u0000r\u0000 \u0000E\u0000x\u0000e\u0000c\u0000u\u0000t\u0000i\u0000o\u0000n\u0000 \u0000E\u0000n\u0000g\u0000i\u0000n\u0000e\u0000\r\u0000 \u0000",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@fastify/websocket": "^11.2.0",
     "bullmq": "^5.63.2",
     "dotenv": "^17.2.3",
     "fastify": "^5.6.2",
