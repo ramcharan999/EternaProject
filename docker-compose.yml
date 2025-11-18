@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  # 1. Redis - Used for BullMQ (Order Queue)
+  redis:
+    image: redis:alpine
+    container_name: order_engine_redis
+    ports:
+      - "6379:6379"
+    restart: always
+
+  # 2. PostgreSQL - Used for Order History
+  postgres:
+    image: postgres:15-alpine
+    container_name: order_engine_postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: order_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  postgres_data:
