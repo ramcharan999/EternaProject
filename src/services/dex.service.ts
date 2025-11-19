@@ -76,13 +76,16 @@ export class MockDexRouter {
      * 4. EXECUTE SWAP
      * Simulates the actual transaction on the chosen DEX
      */
+  /**
+     * 4. EXECUTE SWAP
+     */
     async executeSwap(dex: string, order: Order, finalPrice: number): Promise<ExecutionResult> {
         console.log(`[Execution] Swapping on ${dex}...`);
         
-        // Simulate 2-3 second blockchain confirmation delay [cite: 106]
-        await sleep(2000 + Math.random() * 1000);
+        // CHANGE THIS LINE: Increase delay to 15 seconds (15000 ms)
+        // This gives you time to copy the ID and connect!
+        await sleep(15000); 
 
-        // Mock Transaction Hash generation
         const mockTxHash = 'solana_tx_' + Math.random().toString(36).substring(7);
 
         return {

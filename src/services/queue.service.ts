@@ -3,7 +3,7 @@ import { Queue, Worker, Job } from 'bullmq';
 import IORedis from 'ioredis';
 import { MockDexRouter } from './dex.service';
 import { Order } from '../types';
-
+import { websocketManager } from './websocket.service';
 // Connection to our Docker Redis
 const redisConnection = new IORedis({
     host: process.env.REDIS_HOST || 'localhost',
@@ -50,16 +50,36 @@ export class OrderQueueService {
     }
 
     // The core logic run by the worker
+   // The core logic run by the worker
     private async processOrder(order: Order) {
-        // Step 1: Routing
+        const { id } = order;
+
+        // 1. ROUTING
+        websocketManager.notifyStatus(id, 'ROUTING');
         const bestQuote = await this.dexRouter.findBestRoute(order.inputToken, order.outputToken, order.amount);
         
-        // Step 2: Execution
+        // Notify user about the decision
+        websocketManager.notifyStatus(id, 'ROUTING_COMPLETE', { 
+            route: bestQuote.dex, 
+            price: bestQuote.price 
+        });
+
+        // 2. BUILDING & SUBMITTING
+        websocketManager.notifyStatus(id, 'BUILDING');
+        websocketManager.notifyStatus(id, 'SUBMITTED');
+
+        // 3. EXECUTION
         const result = await this.dexRouter.executeSwap(bestQuote.dex, order, bestQuote.price);
 
         if (result.status === 'success') {
-            console.log(`[Success] Order ${order.id} confirmed. Tx: ${result.txHash}`);
+            console.log(`[Success] Order ${id} confirmed.`);
+            // 4. CONFIRMED
+            websocketManager.notifyStatus(id, 'CONFIRMED', { 
+                txHash: result.txHash,
+                finalPrice: result.executedPrice
+            });
         } else {
+            websocketManager.notifyStatus(id, 'FAILED', { reason: 'Swap simulation failed' });
             throw new Error('Swap failed');
         }
     }
