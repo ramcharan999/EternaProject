@@ -1,0 +1,39 @@
+{
+	"info": {
+		"_postman_id": "5e498d90-b446-4af9-970a-d8a586c13ade",
+		"name": "Order Execution Engine",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "47801830"
+	},
+	"item": [
+		{
+			"name": "Submit Market Order",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"inputToken\": \"SOL\",\r\n    \"outputToken\": \"USDC\",\r\n    \"amount\": 10\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
