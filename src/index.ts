@@ -39,8 +39,9 @@ server.register(async (fastify) => {
 const start = async () => {
     try {
         const port = Number(process.env.PORT) || 3000;
-        await server.listen({ port, host: '0.0.0.0' });
-        console.log(`Server running athttp://localhost:${port}`);
+        // CRITICAL FIX: You MUST include host: '0.0.0.0' for Docker/Render
+        await server.listen({ port, host: '0.0.0.0' }); 
+        console.log(`Server running at http://0.0.0.0:${port}`);
     } catch (err) {
         server.log.error(err);
         process.exit(1);
