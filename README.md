@@ -117,6 +117,5 @@ A Mock Implementation was chosen to focus on architecture and flow.
 
 Deliverables
 
-  - Demo Video: [INSERT\_YOUR\_YOUTUBE\_LINK\_HERE]
   - Live Deployment: (https://eternaproject-re9v.onrender.com)
   - Postman Collection: Located in the postman\_deliverables/ folder in this repository.
