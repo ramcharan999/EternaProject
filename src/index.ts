@@ -19,22 +19,45 @@ server.post('/api/orders', executeOrder);
 // Users connect to: ws://localhost:3000/ws/orders/:orderId
 // 3. Register WebSocket Endpoint
 // 3. Register WebSocket Endpoint
+// src/index.ts
+
+// ... inside the websocket register block ...
+// src/index.ts
+
+// ... imports above ...
+
 server.register(async (fastify) => {
+    
+    // 1. DEBUG PING ROUTE (Fixed to avoid errors)
+    fastify.get('/ws/ping', { websocket: true }, (connection, req) => {
+        console.log("Ping connected!");
+        // "as any" stops the red squiggly line
+        const client = (connection as any).socket || connection;
+        
+        if (client && client.send) {
+            client.send('pong');
+        } else {
+            console.error("Ping failed: No socket found");
+        }
+    });
+
+    // 2. ORDERS ROUTE (Fixed to avoid errors)
     fastify.get('/ws/orders/:orderId', { websocket: true }, (connection, req: any) => {
         const { orderId } = req.params;
+        console.log(`Connection attempt for Order: ${orderId}`);
         
-        // EXPLANATION: 
-        // Sometimes 'connection' IS the socket, sometimes it's a wrapper with '.socket'.
-        // This line checks both possibilities to ensure we never pass 'undefined'.
+        // "as any" stops the red squiggly line
         const clientSocket = (connection as any).socket || connection;
 
         if (clientSocket) {
             websocketManager.handleConnection(orderId, clientSocket);
         } else {
-            console.error('[WebSocket Error] Could not extract socket from connection object');
+            console.error("Socket missing for order connection");
         }
     });
 });
+
+// ... rest of the file ...
 
 const start = async () => {
     try {
