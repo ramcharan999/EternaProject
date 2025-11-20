@@ -5,12 +5,23 @@ import { MockDexRouter } from './dex.service';
 import { Order } from '../types';
 import { websocketManager } from './websocket.service';
 // Connection to our Docker Redis
+// src/services/queue.service.ts
+// src/services/queue.service.ts
+
+console.log("--- REDIS DEBUG ---");
+console.log("Host:", process.env.REDIS_HOST);
+console.log("Port:", process.env.REDIS_PORT);
+// Do NOT log the actual password, just check if it exists and its length
+console.log("Password Exists?", !!process.env.REDIS_PASSWORD); 
+console.log("Password Length:", process.env.REDIS_PASSWORD ? process.env.REDIS_PASSWORD.length : 0);
+console.log("-------------------");
+
 const redisConnection = new IORedis({
     host: process.env.REDIS_HOST || 'localhost',
     port: Number(process.env.REDIS_PORT) || 6379,
+    password: process.env.REDIS_PASSWORD, 
     maxRetriesPerRequest: null
 });
-
 export class OrderQueueService {
     private orderQueue: Queue;
     private dexRouter: MockDexRouter;
