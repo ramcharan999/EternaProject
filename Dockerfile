@@ -4,21 +4,20 @@ FROM node:20-alpine
 # Set working directory
 WORKDIR /app
 
-# Copy package files
+# Copy package files first (optimizes cache)
 COPY package*.json ./
 
-# Install dependencies
+# Install ALL dependencies (including dev dependencies for building)
 RUN npm install
 
-# Copy source code
+# Copy the rest of the source code
 COPY . .
 
-# Build TypeScript (if you have a build script, otherwise we run directly)
-# For this setup, we will use ts-node directly to save time
-RUN npm install -g ts-node typescript
+# Build the TypeScript code (Creates the 'dist' folder)
+RUN npm run build
 
-# Expose the port Render assigns
+# Expose the port
 EXPOSE 3000
 
-# Start command
-CMD ["npm", "run", "dev"]
+# Start the app using the production script
+CMD ["npm", "start"]

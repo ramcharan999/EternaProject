@@ -4,11 +4,11 @@
   "description": "��#\u0000 \u0000O\u0000r\u0000d\u0000e\u0000r\u0000 \u0000E\u0000x\u0000e\u0000c\u0000u\u0000t\u0000i\u0000o\u0000n\u0000 \u0000E\u0000n\u0000g\u0000i\u0000n\u0000e\u0000\r\u0000 \u0000",
   "main": "index.js",
   "scripts": {
-    "test": "jest --forceExit --detectOpenHandles",
-    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
-    "build": "tsc -p .",
-    "start": "node dist/src/index.js"
-  },
+  "build": "tsc",
+  "start": "node dist/index.js",
+  "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+  "test": "jest --forceExit --detectOpenHandles"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",
