@@ -18,7 +18,8 @@
     "fastify-websocket": "^4.3.0",
     "ioredis": "^5.8.2",
     "pg": "^8.16.3",
-    "typeorm": "^0.3.27"
+    "typeorm": "^0.3.27",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@types/ioredis": "^5.0.0",
