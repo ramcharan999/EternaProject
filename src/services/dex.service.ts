@@ -84,7 +84,7 @@ export class MockDexRouter {
         
         // CHANGE THIS LINE: Increase delay to 15 seconds (15000 ms)
         // This gives you time to copy the ID and connect!
-        await sleep(15000); 
+        await sleep(60000); 
 
         const mockTxHash = 'solana_tx_' + Math.random().toString(36).substring(7);
 
