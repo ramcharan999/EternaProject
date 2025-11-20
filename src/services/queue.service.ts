@@ -1,3 +1,4 @@
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 // src/services/queue.service.ts
 import { Queue, Worker, Job } from 'bullmq';
 import IORedis from 'ioredis';
@@ -62,8 +63,14 @@ export class OrderQueueService {
 
     // The core logic run by the worker
    // The core logic run by the worker
+   // The core logic run by the worker
     private async processOrder(order: Order) {
         const { id } = order;
+
+        // --- NEW: Wait 20 seconds HERE so you have time to connect ---
+        console.log(`[Worker] Pausing 20s to allow WebSocket connection for ${id}...`);
+        await sleep(20000); 
+        // -------------------------------------------------------------
 
         // 1. ROUTING
         websocketManager.notifyStatus(id, 'ROUTING');
