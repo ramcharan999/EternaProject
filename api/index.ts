@@ -15,6 +15,11 @@ async function buildServer() {
   // Only register the minimal routes needed for serverless handling.
   server.post('/api/orders', executeOrder as any);
 
+  // Root health route for the deployment
+  server.get('/', async (req, reply) => {
+    return reply.send({ message: 'Eterna API is running' });
+  });
+
   await server.ready();
   return server;
 }
