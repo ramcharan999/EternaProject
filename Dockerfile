@@ -1,24 +1,24 @@
-FROM node:20
+# Use official Node.js image
+FROM node:20-alpine
 
-# Create app directory
+# Set working directory
 WORKDIR /app
 
-# Copy package manifests first and install dependencies
-COPY package.json package-lock.json* ./
+# Copy package files
+COPY package*.json ./
 
-# Install all dependencies (including dev for build)
-RUN npm ci
+# Install dependencies
+RUN npm install
 
-# Copy rest of the source
+# Copy source code
 COPY . .
 
-# Build TypeScript
-RUN npm run build
+# Build TypeScript (if you have a build script, otherwise we run directly)
+# For this setup, we will use ts-node directly to save time
+RUN npm install -g ts-node typescript
 
-# Expose port
+# Expose the port Render assigns
 EXPOSE 3000
 
-ENV NODE_ENV=production
-
-# Start the compiled app (src/index.ts compiles to dist/src/index.js)
-CMD ["node", "dist/src/index.js"]
+# Start command
+CMD ["npm", "run", "dev"]
